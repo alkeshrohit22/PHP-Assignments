@@ -47,6 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $technology = test_all($_POST["technology"]);
     }
+
+    if(!empty($_POST['role'])) {
+        $role = test_all($_POST["role"]);         
+      } else {
+        $roleError = 'Please select the role!!!.';
+      }
 }
 
 function test_all($value)

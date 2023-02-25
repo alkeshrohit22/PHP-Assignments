@@ -1,4 +1,5 @@
-<?php $testing = 'value123'; ?>
+<?php require 'validation.php' ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,66 +20,6 @@
             Sigma Employee Form <?php echo $testing ?>
         </h1>
     </div>
-    <?php
-    $name = $email = $gender = $technology = $role = $age = '';
-    $nameError = $emailError = $genderError = $techError = $roleError = $ageError = '';
-
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-        //for name
-        if (empty($_POST["name"])) {
-            $nameError = "please enter name!!!";
-        } else {
-            $name = test_all($_POST["name"]);
-            if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
-                $nameError = "invalid name given";
-            }
-        }
-
-        //for email
-        if (empty($_POST['email'])) {
-            $emailError = "please enter email!!!";
-        } else {
-            $email = test_all($_POST['email']);
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $emailError = "invalid email given!!!";
-            }
-        }
-
-        //for age
-        if (empty($_POST['age'])) {
-            $ageError = 'please enter age first!!!';
-        } else {
-            $age = test_all($_POST['age']);
-            if (!preg_match('/^[0-9]+$/', $age)) {
-                $ageError = 'please enter age only';
-            }
-        }
-
-        //for gender
-        if (empty($_POST["gender"])) {
-            $genderError = "Gender is required";
-        } else {
-            $gender = test_all($_POST["gender"]);
-        }
-
-        //technology validation
-        if (empty($_POST["technology"])) {
-            $techError = "technology is required";
-        } else {
-            $technology = test_all($_POST["technology"]);
-        }
-    }
-
-    function test_all($value)
-    {
-        $value = trim($value);
-        $value = stripslashes($value);
-        $value = htmlspecialchars($value);
-        return $value;
-    }
-
-    ?>
     <form id="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" name="employeeForm">
 
         <div class="form-control">
@@ -144,14 +85,15 @@
             </label>
 
             <select name="role" id="role">
-                <option value="other">Other</option>
-                <option value="intern">Intern</option>
+                <option value="" disabled selected>Choose option</option>
+                <option value="intern" >Intern</option>
                 <option value="intern trainee">Intern Trainee</option>
                 <option value="PHP Developer">PHP Developer</option>
                 <option value="Fronted Developer">Fronted Developer</option>
                 <option value="database administrator">database administrator</option>
                 <option value="project manager">Project Manager</option>
                 <option value="IT service">IT Service Area</option>
+                <option value="other">Other</option>
             </select>
         </div>
 
@@ -210,7 +152,12 @@
 </body>
 <?php
 echo "<h1>Output : </h1>";
-echo "Name is : " . $name;
-?>
+echo "Name  : $name <br />";
+echo "Email ID : $email<br />";
+echo "Gender : $gender<br />";
+echo "Age : $age<br />";
+echo "Technology : $technology<br />";
+echo "Role : $role<br />";
+?> 
 
 </html>

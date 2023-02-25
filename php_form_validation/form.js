@@ -1,4 +1,5 @@
 var submitallow = false;
+
 $(document).ready(function(){
     $('#submitbutton').on('click',function(event){
           event.preventDefault();
