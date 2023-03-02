@@ -11,7 +11,7 @@ body {
 
 .main-body {
     display: flex;
-    background-color: whitesmoke;
+    background-color:#FEDEFF;
     padding: 0;
     margin: 0;
     flex-direction: column;
