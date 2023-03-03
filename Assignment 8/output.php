@@ -40,6 +40,8 @@ class FeedRss
         } else {
             echo "<div class='main-body'";
             echo "<div class='box-body'>";
+            $mainTitle = $rss_url->channel->title;
+            $html .= "<h1>$mainTitle</h1>";
             for ($i = 0; $i < 50; $i++) {
                 $title = $rss_url->channel->item[$i]->title;
                 $link = $rss_url->channel->item[$i]->link;
@@ -49,6 +51,7 @@ class FeedRss
                 $html .= "<a href='$link'><h3>$title</h3></a>";
                 $html .= "<p>$description</p>";
                 $html .= "<br /><span class='data'>$pubDate<hr /></span>";
+                $html .= "<hr>";
                 
             }
             echo $html;

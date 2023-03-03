@@ -11,10 +11,19 @@ body {
 
 .main-body {
     display: flex;
-    background-color:#FEDEFF;
+    background-color: white;
+    /* background-color:rgb(238, 225, 225); */
     padding: 0;
     margin: 0;
     flex-direction: column;
+}
+
+.main-body h1 {
+    color: wheat;
+    font-size: 100px;
+    background-color: black;
+    /* background-color: rgb(57, 15, 172); */
+    padding-left: 425px;
 }
 
 .main-body a {
@@ -29,22 +38,21 @@ body {
 
 .main-body a > h3 {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: 800;
-    color: red;
+    font-weight: 1000;
+    color: black;
 }
 
 .main-body p {
     margin-left: auto;
     margin-right: auto;
-    padding: 0 0 0 0;
+    padding: 0 145px 0 145px;
 }
 
-.main-body p > p{
-    color: blue;
-    margin: 0 0 0 0;
-}
 
 .main-body .data {
+    display: flex;
+    flex-direction: row-reverse;
     margin: 0 0 0 0;
     padding: 0 0 0 0;
 }
+
