@@ -23,3 +23,12 @@ h1 {
     margin-left: 500px;
     color: green;
 }
+
+.warning {
+    color: red;
+}
+
+.newh1{
+    margin-left: 450px;
+    color: orange;
+}

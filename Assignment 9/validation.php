@@ -22,11 +22,12 @@ class Validation
 
     public function __construct($csvFile, $csvFileTemp)
     {
-        $this->csvFile = $csvFile; 
+        $this->csvFile = $csvFile;
         $this->csvFileTemp = $csvFileTemp;
     }
 
-    public function validation(){
+    public function validation()
+    {
 
         $csv_file = $_FILES['csv_file'];
         if ($csv_file['error'] == 0 && pathinfo($csv_file['name'], PATHINFO_EXTENSION) == 'csv') {
@@ -48,7 +49,7 @@ class Validation
         $stream = fopen($this->csvFileTemp, "r");
 
         $first = true;
-        
+
         echo "<table border='1px'>";
         while (($row = fgetcsv($stream)) !== false) {
             echo "<tr>";
@@ -63,41 +64,55 @@ class Validation
         fclose($stream);
         ?></table>
     <?php
-    }
-
-    // public function insert_csv($newData){
-
-        
-    //     // $newData = array(4, 4, 4, 'Y', 1, 1, 1, 'M', 'AddedText');
-    //         //array(8, 8, 8, 'N',8, 8, 8, 'w', 'Ahmedabad', 'Guj')
-
-    //     $csv_file = fopen('cities.csv', 'a');
-
-    //     // foreach($pushing_data as $row){
-    //     //     print_r( $row);
-    //     //     fputcsv($csv_file, $row);
-    //     // }
-    //     fputcsv($csv_file, $newData);
-
-    //     fclose($csv_file);
-    // }
 }
 
+    public function insert_csv()
+    {
+        $newData = array();
 
-if(isset($_POST['submit'])){
+        //name of file
+        $nameOffile = $this->csvFile;
+
+        //condition which data have to insert in which file
+        if ($nameOffile == 'biostats.csv') {
+            $newData = array('Alkesh', 'M', 21, 75, 168);
+        } elseif ($nameOffile == 'cities.csv') {
+            $newData = array(42, 7, 7, 'N', 8, 8, 8, 'W', 'Ahmedabad', 'Gujarat');
+        } elseif ($nameOffile = 'airtravel.csv') {
+            $newData = array('FEB-1', 700, 500, 600);
+        } else {
+            echo "<h3 class='warning'>You have to choose only this three file.(biostats.csv, cities.csv, airtravel.csv) </h3>";
+        }
+
+        echo "<h1 class='newh1'>Updated New Data into CSV file</h1>";
+        $newCsv = fopen($this->csvFileTemp, 'a');
+        fputcsv($newCsv, $newData);
+        fclose($newCsv);
+    }
+}
+
+if (isset($_POST['submit'])) {
 
     $csvFile = $_FILES['csv_file']['name'];
     $csvFileTemp = $_FILES['csv_file']['tmp_name'];
-    
+
     $csvObj = new Validation($csvFile, $csvFileTemp);
-    
+
     //validation function
     $csvObj->validation();
 
-    if($csvObj->flag == true){
+    if ($csvObj->flag == true) {
+
+        //Display csv file
         $csvObj->read_csv($csvFileTemp);
-    }else{
-        echo"<h1>Choose Another File!!!</h1>";
+
+        //insert into csv
+        $csvObj->insert_csv();
+
+        $csvObj->read_csv($csvFileTemp);
+
+    } else {
+        echo "<h1>Choose Another File!!!</h1>";
     }
 }
 ?>
