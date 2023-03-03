@@ -45,7 +45,6 @@ class Validation
 
     <table id="demo"><?php
 
-        //Open Csv File
         $stream = fopen($this->csvFileTemp, "r");
 
         $first = true;
@@ -89,6 +88,17 @@ class Validation
         fputcsv($newCsv, $newData);
         fclose($newCsv);
     }
+
+    public function clientSideDown()
+    {
+
+        header("Content-Description: File Transfer");
+        header("Content-Type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=\"" . $this->csvFileTemp . "\"");
+        echo "File downloaded successfully";
+
+        readfile($this->csvFileTemp);
+    }
 }
 
 if (isset($_POST['submit'])) {
@@ -103,13 +113,14 @@ if (isset($_POST['submit'])) {
 
     if ($csvObj->flag == true) {
 
-        //Display csv file
-        $csvObj->read_csv($csvFileTemp);
+        $csvObj->read_csv();
 
-        //insert into csv
         $csvObj->insert_csv();
 
-        $csvObj->read_csv($csvFileTemp);
+        $csvObj->read_csv();
+
+        //download csv file
+        //$csvObj->clientSideDown();
 
     } else {
         echo "<h1>Choose Another File!!!</h1>";
