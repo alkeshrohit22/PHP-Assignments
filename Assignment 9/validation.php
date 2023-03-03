@@ -7,33 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Display CSV</title>
 
-    <style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    th,
-    td {
-        text-align: left;
-        padding: 8px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
-
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    h1 {
-        margin-left: 500px;
-        color: green;
-    }
-    </style>
+    <link rel="stylesheet" href="validation.css">
 </head>
 
 <body>
@@ -42,19 +16,25 @@
 
 class Validation
 {
-    public $csv_data = array();
-    public function __construct()
+    private $csvFile;
+    public $csvFileTemp;
+    public $flag = false;
+
+    public function __construct($csvFile, $csvFileTemp)
     {
-        if (isset($_POST['submit'])) {
+        $this->csvFile = $csvFile; 
+        $this->csvFileTemp = $csvFileTemp;
+    }
 
-            $csv_file = $_FILES['csv_file'];
+    public function validation(){
 
-            if ($csv_file['error'] == 0 && pathinfo($csv_file['name'], PATHINFO_EXTENSION) == 'csv') {
-                echo "<h1>Dispaying CSV File</h1>";
-
-            } else {
-                echo "<h1>Choosing Wrong File</h1>";
-            }
+        $csv_file = $_FILES['csv_file'];
+        if ($csv_file['error'] == 0 && pathinfo($csv_file['name'], PATHINFO_EXTENSION) == 'csv') {
+            echo "<h1>Dispaying CSV File</h1>";
+            $this->flag = true;
+        } else {
+            echo "<h1>Choosing Wrong File</h1>";
+            $this->flag = false;
         }
     }
 
@@ -65,7 +45,7 @@ class Validation
     <table id="demo"><?php
 
         //Open Csv File
-        $stream = fopen("cities.csv", "r");
+        $stream = fopen($this->csvFileTemp, "r");
 
         $first = true;
         
@@ -83,12 +63,43 @@ class Validation
         fclose($stream);
         ?></table>
     <?php
-}
+    }
+
+    // public function insert_csv($newData){
+
+        
+    //     // $newData = array(4, 4, 4, 'Y', 1, 1, 1, 'M', 'AddedText');
+    //         //array(8, 8, 8, 'N',8, 8, 8, 'w', 'Ahmedabad', 'Guj')
+
+    //     $csv_file = fopen('cities.csv', 'a');
+
+    //     // foreach($pushing_data as $row){
+    //     //     print_r( $row);
+    //     //     fputcsv($csv_file, $row);
+    //     // }
+    //     fputcsv($csv_file, $newData);
+
+    //     fclose($csv_file);
+    // }
 }
 
-$csvobj = new Validation();
 
-$csvobj->read_csv();
+if(isset($_POST['submit'])){
+
+    $csvFile = $_FILES['csv_file']['name'];
+    $csvFileTemp = $_FILES['csv_file']['tmp_name'];
+    
+    $csvObj = new Validation($csvFile, $csvFileTemp);
+    
+    //validation function
+    $csvObj->validation();
+
+    if($csvObj->flag == true){
+        $csvObj->read_csv($csvFileTemp);
+    }else{
+        echo"<h1>Choose Another File!!!</h1>";
+    }
+}
 ?>
 
 </body>

@@ -16,7 +16,7 @@
             <h1>Upload CSV File</h1>
             <form action="validation.php" method="post" enctype="multipart/form-data">
                 <input type="file" name="csv_file" placeholder="Upload CSV File" size="50" style="height:38px">
-                <button type="submit" name="submit" class="btn btn-outline-warning">Submit</button>
+                <button type="submit" name="submit" value="1" class="btn btn-outline-warning">Submit</button>
             </form>
         </div>
     </div>
