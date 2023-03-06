@@ -14,11 +14,10 @@ class Validation
 
     public function validation()
     {
-
         //validation function
         $csv_file = $_FILES['csv_file'];
         if ($csv_file['error'] == 0 && pathinfo($csv_file['name'], PATHINFO_EXTENSION) == 'csv') {
-            echo "<h1>Dispaying CSV File</h1>";
+
             $this->flag = true;
         } else {
             echo "<h1>Choosing Wrong File</h1>";
@@ -30,7 +29,6 @@ class Validation
     {
 
         // read and upload file at new location
-        echo "<table id='demo'>";
 
         //move the file to specific path
         move_uploaded_file($this->csvFileTemp, "/var/www/html/php/Assignment-9/uploads/" . $this->csvFile);
@@ -43,7 +41,6 @@ class Validation
 
         $first = true;
 
-        echo "<table border='1px'>";
         while (($row = fgetcsv($stream)) !== false) {
             echo "<tr>";
             if ($first) {
@@ -52,9 +49,7 @@ class Validation
             } else {foreach ($row as $col) {echo "<td>$col</td>";}}
             echo "</tr>";
         }
-        echo "</table>";
         fclose($stream);
-        echo "</table>";
 
     }
 
@@ -71,20 +66,14 @@ class Validation
 
         //condition which data have to insert in which file
         if ($nameOffile == 'biostats.csv') {
-            $newData = array('Alkesh', 'M', 21, 75, 168);
+            $newData = array('Alkesh', 'M', 21, 75, 168, 111);
         } elseif ($nameOffile == 'cities.csv') {
-            $newData = array(42, 7, 7, 'N', 8, 8, 8, 'W', 'Gandhinager', 'Gujarat');
+            $newData = array(42, 7, 7, 'N', 8, 8, 8, 'W', 'Gandhinager', 'Gujarat', 'India');
         } elseif ($nameOffile = 'airtravel.csv') {
-            $newData = array('FEB-1', 700, 500, 600);
+            $newData = array('FEB-1', 700, 500, 600, 500);
         } else {
             echo "<h3 class='warning'>You have to choose only this three file.(biostats.csv, cities.csv, airtravel.csv) </h3>";
         }
-
-        //added row in csv file
-        $newCsv = fopen($this->csvFileTemp, 'a+');
-        fputcsv($newCsv, $newData);
-        fclose($newCsv);
-
 
         if (($newCsv = fopen($this->csvFileTemp, "r")) !== false) {
             while (($data = fgetcsv($newCsv, 1000, ",")) !== false) {
@@ -100,11 +89,15 @@ class Validation
             fputcsv($newCsv, $line);
         }
         fclose($newCsv);
+
+        //added row in csv file
+        $newCsv = fopen($this->csvFileTemp, 'a+');
+        fputcsv($newCsv, $newData);
+        fclose($newCsv);
     }
 
     public function clientSideDown()
     {
-        echo "This funtion called!!!";
         //url path
         $url = $this->csvFileTemp;
 
