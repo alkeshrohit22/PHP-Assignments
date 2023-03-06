@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display CSV</title>
-
-    <link rel="stylesheet" href="validation.css">
-</head>
-
-<body>
-
-    <?php
+<?php
 
 class Validation
 {
@@ -30,7 +16,6 @@ class Validation
     {
 
         //validation function
-        
         $csv_file = $_FILES['csv_file'];
         if ($csv_file['error'] == 0 && pathinfo($csv_file['name'], PATHINFO_EXTENSION) == 'csv') {
             echo "<h1>Dispaying CSV File</h1>";
@@ -40,15 +25,15 @@ class Validation
             $this->flag = false;
         }
     }
-    
+
     public function read_csv()
     {
+
         // read and upload file at new location
-        
         echo "<table id='demo'>";
 
         //move the file to specific path
-        move_uploaded_file($this->csvFileTemp, "/var/www/html/php/Assignment-9/uploads/" . $this->csvFile);    
+        move_uploaded_file($this->csvFileTemp, "/var/www/html/php/Assignment-9/uploads/" . $this->csvFile);
 
         //get the newly uploaded file
         $this->csvFileTemp = "/var/www/html/php/Assignment-9/uploads/" . $this->csvFile;
@@ -68,14 +53,18 @@ class Validation
             echo "</tr>";
         }
         echo "</table>";
-
         fclose($stream);
         echo "</table>";
+
     }
 
+    //adding new column and row in csv file
     public function insert_csv()
     {
+
         $newData = array();
+        //array for column data
+        $newCsvData = array();
 
         //name of file
         $nameOffile = $this->csvFile;
@@ -91,16 +80,50 @@ class Validation
             echo "<h3 class='warning'>You have to choose only this three file.(biostats.csv, cities.csv, airtravel.csv) </h3>";
         }
 
-        echo "<h1 class='newh1'>Updated New Data into CSV file</h1>";
-
+        //added row in csv file
         $newCsv = fopen($this->csvFileTemp, 'a+');
         fputcsv($newCsv, $newData);
+        fclose($newCsv);
+
+
+        if (($newCsv = fopen($this->csvFileTemp, "r")) !== false) {
+            while (($data = fgetcsv($newCsv, 1000, ",")) !== false) {
+                $data[] = 'New Column';
+                $newCsvData[] = $data;
+            }
+            fclose($newCsv);
+        }
+
+        //added column in csv file
+        $newCsv = fopen($this->csvFileTemp, 'w');
+        foreach ($newCsvData as $line) {
+            fputcsv($newCsv, $line);
+        }
         fclose($newCsv);
     }
 
     public function clientSideDown()
     {
-        echo "<h3 class='newh1'>New File Sucessfully Updated!!!</h3>";
+        echo "This funtion called!!!";
+        //url path
+        $url = $this->csvFileTemp;
+
+        //get file name from url
+        $file_name = basename($this->csvFileTemp);
+
+        $info = pathinfo($file_name);
+
+        //check file extension
+        if ($info['extension'] == 'csv') {
+
+            header("Content-Description: File Transfer");
+            header("Content-Type: text/csv");
+            header("Content-Disposition: attachment; filename=\"" . $file_name . "\"");
+
+            readfile($url);
+        } else {
+            echo "Sorry, that's not a CSV file!!!";
+        }
 
     }
 }
@@ -117,20 +140,13 @@ if (isset($_POST['submit'])) {
 
     if ($csvObj->flag == true) {
 
-        $csvObj->read_csv($csvFileTemp);
-
+        $csvObj->read_csv();
         $csvObj->insert_csv();
-
-        $csvObj->read_csv($csvFileTemp);
-
         $csvObj->clientSideDown();
 
     } else {
         echo "<h1>Choose Another File!!!</h1>";
     }
 }
+
 ?>
-
-</body>
-
-</html>

@@ -1,20 +1,20 @@
-Name,Sex,Age,Height (in),Weight (lbs)
-Alex,M,41,74,170
-Bert,M,42,68,166
-Carl,M,32,70,155
-Dave,M,39,72,167
-Elly,F,30,66,124
-Fran,F,33,66,115
-Gwen,F,26,64,121
-Hank,M,30,71,158
-Ivan,M,53,72,175
-Jake,M,32,69,143
-Kate,F,47,69,139
-Luke,M,34,72,163
-Myra,F,23,62,98
-Neil,M,36,75,160
-Omar,M,38,70,145
-Page,F,31,67,135
-Quin,M,29,71,176
-Ruth,F,28,65,131
-Alkesh,M,21,75,168
+Name,Sex,Age,"Height (in)","Weight (lbs)","New Column"
+Alex,M,41,74,170,"New Column"
+Bert,M,42,68,166,"New Column"
+Carl,M,32,70,155,"New Column"
+Dave,M,39,72,167,"New Column"
+Elly,F,30,66,124,"New Column"
+Fran,F,33,66,115,"New Column"
+Gwen,F,26,64,121,"New Column"
+Hank,M,30,71,158,"New Column"
+Ivan,M,53,72,175,"New Column"
+Jake,M,32,69,143,"New Column"
+Kate,F,47,69,139,"New Column"
+Luke,M,34,72,163,"New Column"
+Myra,F,23,62,98,"New Column"
+Neil,M,36,75,160,"New Column"
+Omar,M,38,70,145,"New Column"
+Page,F,31,67,135,"New Column"
+Quin,M,29,71,176,"New Column"
+Ruth,F,28,65,131,"New Column"
+Alkesh,M,21,75,168,"New Column"
