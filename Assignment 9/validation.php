@@ -38,13 +38,18 @@ class Validation
             $this->flag = false;
         }
     }
-
+    
     public function read_csv()
     {
-        ?>
+        echo "<table id='demo'>";
 
-    <table id="demo"><?php
+        //move the file to specific path
+        move_uploaded_file($this->csvFileTemp, "/var/www/html/php-practice/uploads/" . $this->csvFile);    
 
+        //get the newly uploaded file
+        $this->csvFileTemp = "/var/www/html/php-practice/uploads/" . $this->csvFile;
+
+        //Open Csv File
         $stream = fopen($this->csvFileTemp, "r");
 
         $first = true;
@@ -61,9 +66,8 @@ class Validation
         echo "</table>";
 
         fclose($stream);
-        ?></table>
-    <?php
-}
+        echo "</table>";
+    }
 
     public function insert_csv()
     {
@@ -72,11 +76,12 @@ class Validation
         //name of file
         $nameOffile = $this->csvFile;
 
+        //echo ''
         //condition which data have to insert in which file
         if ($nameOffile == 'biostats.csv') {
             $newData = array('Alkesh', 'M', 21, 75, 168);
         } elseif ($nameOffile == 'cities.csv') {
-            $newData = array(42, 7, 7, 'N', 8, 8, 8, 'W', 'Ahmedabad', 'Gujarat');
+            $newData = array(42, 7, 7, 'N', 8, 8, 8, 'W', 'Gandhinager', 'Gujarat');
         } elseif ($nameOffile = 'airtravel.csv') {
             $newData = array('FEB-1', 700, 500, 600);
         } else {
@@ -84,20 +89,22 @@ class Validation
         }
 
         echo "<h1 class='newh1'>Updated New Data into CSV file</h1>";
-        $newCsv = fopen($this->csvFileTemp, 'a');
+
+        //print_r($newData);die('test');
+        //echo "csvFileTemp" . $this->csvFileTemp; die('test');
+        $newCsv = fopen($this->csvFileTemp, 'a+');
         fputcsv($newCsv, $newData);
         fclose($newCsv);
     }
 
     public function clientSideDown()
     {
+        // header("Content-Description: File Transfer");
+        // header("Content-Type: application/octet-stream");
+        // header("Content-Disposition: attachment; filename=\"". $this->csvFileTemp . "\"");
+        echo "File successfully uploaded";
 
-        header("Content-Description: File Transfer");
-        header("Content-Type: application/octet-stream");
-        header("Content-Disposition: attachment; filename=\"" . $this->csvFileTemp . "\"");
-        echo "File downloaded successfully";
-
-        readfile($this->csvFileTemp);
+        // readfile(basename($this->csvFileTemp));
     }
 }
 
@@ -113,14 +120,13 @@ if (isset($_POST['submit'])) {
 
     if ($csvObj->flag == true) {
 
-        $csvObj->read_csv();
+        $csvObj->read_csv($csvFileTemp);
 
         $csvObj->insert_csv();
 
-        $csvObj->read_csv();
+        $csvObj->read_csv($csvFileTemp);
 
-        //download csv file
-        //$csvObj->clientSideDown();
+        $csvObj->clientSideDown();
 
     } else {
         echo "<h1>Choose Another File!!!</h1>";
