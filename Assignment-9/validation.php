@@ -29,6 +29,8 @@ class Validation
     public function validation()
     {
 
+        //validation function
+        
         $csv_file = $_FILES['csv_file'];
         if ($csv_file['error'] == 0 && pathinfo($csv_file['name'], PATHINFO_EXTENSION) == 'csv') {
             echo "<h1>Dispaying CSV File</h1>";
@@ -41,13 +43,15 @@ class Validation
     
     public function read_csv()
     {
+        // read and upload file at new location
+        
         echo "<table id='demo'>";
 
         //move the file to specific path
-        move_uploaded_file($this->csvFileTemp, "/var/www/html/php-practice/uploads/" . $this->csvFile);    
+        move_uploaded_file($this->csvFileTemp, "/var/www/html/php/Assignment-9/uploads/" . $this->csvFile);    
 
         //get the newly uploaded file
-        $this->csvFileTemp = "/var/www/html/php-practice/uploads/" . $this->csvFile;
+        $this->csvFileTemp = "/var/www/html/php/Assignment-9/uploads/" . $this->csvFile;
 
         //Open Csv File
         $stream = fopen($this->csvFileTemp, "r");
@@ -76,7 +80,6 @@ class Validation
         //name of file
         $nameOffile = $this->csvFile;
 
-        //echo ''
         //condition which data have to insert in which file
         if ($nameOffile == 'biostats.csv') {
             $newData = array('Alkesh', 'M', 21, 75, 168);
@@ -90,8 +93,6 @@ class Validation
 
         echo "<h1 class='newh1'>Updated New Data into CSV file</h1>";
 
-        //print_r($newData);die('test');
-        //echo "csvFileTemp" . $this->csvFileTemp; die('test');
         $newCsv = fopen($this->csvFileTemp, 'a+');
         fputcsv($newCsv, $newData);
         fclose($newCsv);
@@ -99,12 +100,8 @@ class Validation
 
     public function clientSideDown()
     {
-        // header("Content-Description: File Transfer");
-        // header("Content-Type: application/octet-stream");
-        // header("Content-Disposition: attachment; filename=\"". $this->csvFileTemp . "\"");
-        echo "File successfully uploaded";
+        echo "<h3 class='newh1'>New File Sucessfully Updated!!!</h3>";
 
-        // readfile(basename($this->csvFileTemp));
     }
 }
 
