@@ -61,20 +61,6 @@ class Validation
         //array for column data
         $newCsvData = array();
 
-        //name of file
-        $nameOffile = $this->csvFile;
-
-        //condition which data have to insert in which file
-        if ($nameOffile == 'biostats.csv') {
-            $newData = array('Alkesh', 'M', 21, 75, 168, 111);
-        } elseif ($nameOffile == 'cities.csv') {
-            $newData = array(42, 7, 7, 'N', 8, 8, 8, 'W', 'Gandhinager', 'Gujarat', 'India');
-        } elseif ($nameOffile = 'airtravel.csv') {
-            $newData = array('FEB-1', 700, 500, 600, 500);
-        } else {
-            echo "<h3 class='warning'>You have to choose only this three file.(biostats.csv, cities.csv, airtravel.csv) </h3>";
-        }
-
         if (($newCsv = fopen($this->csvFileTemp, "r")) !== false) {
             while (($data = fgetcsv($newCsv, 1000, ",")) !== false) {
                 $data[] = 'New Column';
@@ -90,10 +76,6 @@ class Validation
         }
         fclose($newCsv);
 
-        //added row in csv file
-        $newCsv = fopen($this->csvFileTemp, 'a+');
-        fputcsv($newCsv, $newData);
-        fclose($newCsv);
     }
 
     public function clientSideDown()
