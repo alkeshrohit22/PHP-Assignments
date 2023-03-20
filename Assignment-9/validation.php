@@ -31,10 +31,10 @@ class Validation
         // read and upload file at new location
 
         //move the file to specific path
-        move_uploaded_file($this->csvFileTemp, "/var/www/html/php/Assignment-9/uploads/" . $this->csvFile);
+        move_uploaded_file($this->csvFileTemp, "uploads/" . $this->csvFile);
 
         //get the newly uploaded file
-        $this->csvFileTemp = "/var/www/html/php/Assignment-9/uploads/" . $this->csvFile;
+        $this->csvFileTemp = "uploads/" . $this->csvFile;
 
         //Open Csv File
         $stream = fopen($this->csvFileTemp, "r");
